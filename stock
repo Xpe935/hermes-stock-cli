@@ -3,9 +3,9 @@
 
 Features:
 - Current price for multiple tickers
-- Market summary
-- Market status (open/closed)
-- JSON export
+- Market summary (-m)
+- Market status query (-s)
+- JSON export (-j)
 
 Based on terminal-stocks.dev API by shweshi
 https://github.com/shweshi/terminal-stocks
@@ -22,7 +22,7 @@ def get_data(path):
         return f.read().decode('utf-8')
 
 def parse_table(raw):
-    """Parse table output"""
+    """Parse table output from API"""
     raw = re.sub(r'\x1b\[[0-9;]*m', '', raw)
     results = []
     for line in raw.split('\n'):
@@ -48,7 +48,7 @@ def parse_table(raw):
     return results
 
 def format_table(data, raw):
-    """Print table format"""
+    """Print table format output"""
     print(f"{'Ticker':<10} {'Price':>10}  {'Change':>8} {'% Change':>10}  Day Range")
     print("-" * 55)
     for row in data:
@@ -69,7 +69,7 @@ def format_table(data, raw):
         print(f"Updated: {m.group()}")
 
 def show_market_summary():
-    """Show market summary (top movers)"""
+    """Show market summary (indices, commodities, crypto)"""
     raw = get_data("market-summary")
     raw = re.sub(r'\x1b\[[0-9;]*m', '', raw)
     
